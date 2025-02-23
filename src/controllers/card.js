@@ -35,3 +35,19 @@ exports.getCardProfile = async (req, res) => {
     return responseHandler.error(res, error.message, 400);
   }
 };
+
+exports.listAllCards = async (req, res) => {
+  try {
+    const cards = await cardService.getAllCards();
+    return responseHandler.success(
+      res,
+      "List of all cards",
+      {
+        cards,
+      },
+      200
+    );
+  } catch (error) {
+    return responseHandler.error(res, error.message, 400);
+  }
+};

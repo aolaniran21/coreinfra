@@ -1,4 +1,4 @@
-const { Card } = require("../models");
+const { Card, sequelize } = require("../models");
 
 exports.getDashboardStats = async () => {
   try {
@@ -33,4 +33,47 @@ exports.getCardProfile = async (userId, cardId) => {
     console.error("Error fetching card profile:", error);
     throw error; // Re-throw the error after logging it
   }
+};
+
+exports.getAllCards = async () => {
+  try {
+    return await Card.findAll();
+  } catch (error) {
+    console.error("Error fetching all cards:", error);
+    throw error; // Re-throw the error after logging it
+  }
+};
+
+exports.getMonthlyCardIssuance = async () => {
+  const monthlyIssuance = await Card.findAll({
+    attributes: [
+      [
+        sequelize.fn("date_trunc", "month", sequelize.col("createdAt")),
+        "month",
+      ],
+      [sequelize.fn("count", sequelize.col("id")), "count"],
+    ],
+    group: ["month"],
+    order: [["month", "ASC"]],
+  });
+  return monthlyIssuance;
+};
+
+exports.getRecentCardRequests = async (limit = 10) => {
+  const recentRequests = await Card.findAll({
+    order: [["createdAt", "DESC"]],
+    limit,
+  });
+  return recentRequests;
+};
+
+exports.getCardStatusDistribution = async () => {
+  const statusDistribution = await Card.findAll({
+    attributes: [
+      "status",
+      [sequelize.fn("count", sequelize.col("id")), "count"],
+    ],
+    group: ["status"],
+  });
+  return statusDistribution;
 };

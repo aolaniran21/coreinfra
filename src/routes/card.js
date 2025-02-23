@@ -1,6 +1,10 @@
 const express = require("express");
 const auth = require("../middlewares/auth");
-const { requestCard, getCardProfile } = require("../controllers/card");
+const {
+  requestCard,
+  getCardProfile,
+  listAllCards,
+} = require("../controllers/card");
 
 const router = express.Router();
 
@@ -102,5 +106,6 @@ router.post("/request", auth, requestCard);
  *         description: Invalid card ID.
  */
 router.get("/:id", auth, getCardProfile);
+router.get("/:id", auth, listAllCards);
 
 module.exports = router;
