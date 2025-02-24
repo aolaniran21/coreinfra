@@ -163,82 +163,10 @@ Once running, the API will be available at: [http://localhost:3000](http://local
 }
 ```
 
-### Ticket Booking
-
-#### Book a Ticket
-
-`POST /book`
-
-**Request Body:**
-
-```json
-{
-  "eventId": 1,
-  "userId": "user_12345"
-}
-```
-
-**Response (200 OK):**
-
-```json
-{
-  "message": "Ticket booked successfully"
-}
-```
-
-If sold out (User added to Waiting List):
-
-```json
-{
-  "message": "Event sold out, added to waiting list"
-}
-```
-
-#### Cancel a Booking
-
-`POST /cancel`
-
-**Request Body:**
-
-```json
-{
-  "eventId": 1,
-  "userId": "user_12345"
-}
-```
-
-**Response (200 OK):**
-
-```json
-{
-  "message": "Booking canceled successfully"
-}
-```
-
-## Running Tests
+## Swagger Doc
 
 To run unit and integration tests, use:
 
 ```bash
-npm test
+https://coreinfra.fly.dev/api-docs/
 ```
-
-````
-
-## Deployment
-
-For production deployment:
-
-1. Build the Docker image:
-   ```bash
-   docker build -t event-booking .
-````
-
-2. Run the container:
-   ```bash
-   docker run -d -p 3000:3000 --env-file .env event-booking
-   ```
-
-## Conclusion
-
-This Event Ticket Booking System is designed for scalability, security, and reliability, using Redis for concurrency control, JWT authentication, and following RESTful principles for clean API design.

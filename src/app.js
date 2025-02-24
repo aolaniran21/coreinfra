@@ -5,15 +5,36 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const { sequelize } = require("./models");
 
+// Initialize Swagger Docs
+// const swagger = require("./utils/swagger");
+
+const app = express();
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Card Management API",
+      version: "1.0.0",
+      description: "API for managing cards",
+    },
+    servers: [{ url: "http://localhost:3000" }],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsDoc(options);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
+// swagger(app);
+
 // Import Routes
 const authRoutes = require("./routes/auth");
 const cardRoutes = require("./routes/card");
 const dashboardRoutes = require("./routes/dashboard");
-
-// Initialize Swagger Docs
-const swagger = require("./utils/swagger");
-
-const app = express();
 
 // Middleware
 app.use(express.json());
@@ -27,7 +48,6 @@ app.use("/api/cards", cardRoutes);
 app.use("/api", dashboardRoutes);
 
 // Swagger Documentation
-swagger(app);
 sequelize
   .authenticate()
   .then(() => {
