@@ -29,7 +29,8 @@ DB_NAME=your_db_name
 DB_TEST_NAME=your_test_db
 DB_HOST=your_db_host
 JWT_SECRET=your_jwt_secret
-
+NODE_ENV=production
+JWT_EXPIRES_IN=1h
 ```
 
 ### 4. Start the Database with Docker
